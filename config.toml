@@ -1,0 +1,29 @@
+Scheme_Name = "Generic"
+Scheme_Description = "These are the generic feeds which seethru distribute"
+Scheme_Author = "SeeThru Networks"
+Scheme_Owner = "SeeThru Networks"
+Creation_Date = "2020-06-05 12:58:58"
+
+[[Scripts]]
+    [Scripts.MicrosoftTeams]
+        [Scripts.MicrosoftTeams.Meta]
+            Script_Object_Path="SeeThru_Feeds.Library.Scripts.TCPPortOpen@TCPPortOpen"
+            Script_Output_Path="Outputs/Teams.json"
+        [Scripts.MicrosoftTeams.Fillables]
+            host="teams.microsoft.com"
+
+[[Scripts]]
+    [Scripts.GoogleHangouts]
+        [Scripts.GoogleHangouts.Meta]
+            Script_Object_Path="Scripts.GoogleHangouts@GoogleHangouts"
+            Script_Output_Path="Outputs/GoogleHangouts.json"
+        [Scripts.GoogleHangouts.Fillables]
+
+
+[[Scripts]]
+    [Scripts.Zoom]
+        [Scripts.Zoom.Meta]
+            Script_Object_Path="Scripts.Zoom@Zoom"
+            Script_Output_Path="Outputs/Zoom.json"
+        [Scripts.Zoom.Fillables]
+
