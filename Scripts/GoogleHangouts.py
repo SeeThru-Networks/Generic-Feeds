@@ -16,46 +16,46 @@ class GoogleHangouts(ScriptBase):
     Script_Owner = "SeeThru Networks"
 
     def port_open(self):
-        is_port_open = PortOpen().SetProperty(PortOpen.TARGET_HOST, "hangouts.google.com").SetProperty(PortOpen.PORT, 443).Run().GetProperty(PortOpen.SUCCEEDED)
-        self.SetProperty(self.IS_PORT_OPEN, is_port_open)
+        is_port_open = PortOpen().set_property(PortOpen.TARGET_HOST, "hangouts.google.com").set_property(PortOpen.PORT, 443).run().get_property(PortOpen.SUCCEEDED)
+        self.set_property(self.IS_PORT_OPEN, is_port_open)
         return is_port_open
 
     # ------ Script Overrides ------
-    def Script_Run(self): 
+    def script_run(self): 
         # Checks if the port is open on the server
         if not self.port_open():
             return
 
         #Gets the google status page json
-        try: page = HTTPGet().SetProperty(HTTPGet.URL, "https://www.google.com/appsstatus/json/en").Run()
+        try: page = HTTPGet().set_property(HTTPGet.URL, "https://www.google.com/appsstatus/json/en").run()
         except: return
 
         try:
             #Converts the response to json, ommiting dashboard.jsonp
-            response = json.loads(page.GetProperty(HTTPGet.RESPONSE_CONTENT)[16:-2])
+            response = json.loads(page.get_property(HTTPGet.RESPONSE_CONTENT)[16:-2])
             #Loops through all the messages and finds any google hangouts messages
             for i in range(len(response['messages'])-1, 0, -1):
                 message = response['messages'][i]
                 #The google hangouts id in the json response is 22
                 if message['service'] == 22:
-                    self.SetProperty(self.HANGOUTS_ERROR, not (message['type'] == 3 or message['type'] == 4))
-                    self.SetProperty(self.ERROR_MESSAGE, message['message'])
+                    self.set_property(self.HANGOUTS_ERROR, not (message['type'] == 3 or message['type'] == 4))
+                    self.set_property(self.ERROR_MESSAGE, message['message'])
                     return
         except:
             return
 
-    def Script_Evaluate(self, result):
-        result.SetStatus("green")
-        result.SetMessage("")
+    def script_evaluate(self, result):
+        result.set_status("green")
+        result.set_message("")
 
         # Changes to red if the port is closed
-        if not self.GetProperty(self.IS_PORT_OPEN):
-            result.SetStatus("red")
-            result.SetMessage("Could not connect to google hangouts.")
+        if not self.get_property(self.IS_PORT_OPEN):
+            result.set_status("red")
+            result.set_message("Could not connect to google hangouts.")
         
         #Checks if there is a hangouts error
-        elif self.GetProperty(self.HANGOUTS_ERROR):
-            result.SetStatus("red")
-            message = "Google: \"{}\"".format(self.GetProperty(self.ERROR_MESSAGE))
+        elif self.get_property(self.HANGOUTS_ERROR):
+            result.set_status("red")
+            message = "Google: \"{}\"".format(self.get_property(self.ERROR_MESSAGE))
             if len(message) > 256: message = "There is an issue with hangouts, please look at https://www.google.com/appsstatus"
-            result.SetMessage(message)
+            result.set_message(message)
