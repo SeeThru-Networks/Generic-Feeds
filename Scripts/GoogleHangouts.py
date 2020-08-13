@@ -7,7 +7,7 @@ import json
 
 
 class GoogleHangouts(ScriptBase):
-    HANGOUTS_ERROR = ResultProperty(name="hangouts_error", default=True)
+    HANGOUTS_ERROR = ResultProperty(name="hangouts_error", default=False)
     ERROR_MESSAGE = ResultProperty(name="error_message")
     IS_PORT_OPEN = ResultProperty(name="is_port_open")
 
@@ -17,9 +17,8 @@ class GoogleHangouts(ScriptBase):
     Script_Owner = "SeeThru Networks"
 
     def port_open(self):
-        is_port_open = PortOpen().set_property(PortOpen.TARGET_HOST, "hangouts.google.com").set_property(PortOpen.PORT,
-                                                                                                         443).run().get_property(
-            PortOpen.SUCCEEDED)
+        is_port_open = PortOpen().set_property(PortOpen.TARGET_HOST, "hangouts.google.com")\
+            .set_property(PortOpen.PORT,443).run().get_property(PortOpen.SUCCEEDED)
         self.set_property(self.IS_PORT_OPEN, is_port_open)
         return is_port_open
 
@@ -62,6 +61,6 @@ class GoogleHangouts(ScriptBase):
         elif self.get_property(self.HANGOUTS_ERROR):
             result.set_status("red")
             message = "Google: \"{}\"".format(self.get_property(self.ERROR_MESSAGE))
-            if len(
-                message) > 256: message = "There is an issue with hangouts, please look at https://www.google.com/appsstatus"
+            if len(message) > 256:
+                message = "There is an issue with hangouts, please look at https://www.google.com/appsstatus"
             result.set_message(message)
