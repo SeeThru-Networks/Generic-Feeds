@@ -5,6 +5,9 @@ from SeeThru_Feeds.Library.Components.Socket import PortOpen
 from SeeThru_Feeds.Library.Components.HTTP import HTTPGet
 import json
 
+from SeeThru_Feeds.Model.Scripts.ScriptState import DefaultStates, State
+
+
 class Zoom(ScriptBase):
     ALL_OPERATIONAL = ResultProperty(name="all_operational", default=False)
     ZOOM_INDICATOR = ResultProperty(name="zoom_indicator")
