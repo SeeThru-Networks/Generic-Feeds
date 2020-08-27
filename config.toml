@@ -43,5 +43,6 @@ Script_Output_Path = "Outputs/Zoom.json"
 Script_Object_Path = "Scripts.Zoom@Zoom"
 
 [Scripts.MicrosoftTeams.States.port_closed]
+Name = "port_closed"
 Status = "red"
 Message = "Microsoft Teams cannot be connected to"
